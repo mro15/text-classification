@@ -18,7 +18,7 @@ class W2v(Extractor):
         def transform(w2v, text):
             dim = len(list(w2v.values())[1])
             return [np.mean([self.w2v[t] for t in text if t in self.w2v]
-                or [np.zeros(dim)], axis=0)]
+                or [np.zeros(dim)], axis=0)][0]
 
         train = []
         for i in self.token_train_x:

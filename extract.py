@@ -3,7 +3,7 @@ import argparse
 import extractors
 from os import listdir
 from os.path import isfile, join
-
+from sklearn.datasets import dump_svmlight_file
 from IPython import embed
 
 debug = False
@@ -13,6 +13,7 @@ def read_args():
     parser.add_argument('--data', type=str, help='arquivo de data', required=True)
     parser.add_argument('--extractor', type=str, help='Extrair com o seguinte extrator', required=True)
     parser.add_argument('--debug', help='Print debug and load less files', default=False, action="store_true")
+    parser.add_argument('--run', type=str, help='Run name', required=False)
     return parser.parse_args()
 
 def pprint(text):
@@ -74,6 +75,9 @@ def read_polarity():
 
     return [train, label_train], [test, label_test]
 
+def save_to_file(features, file_out):
+    dump_svmlight_file(features[0], features[1], "features/" + file_out)
+
 def main():
     opt = read_args()
     global debug
@@ -87,15 +91,20 @@ def main():
         print("Erro, database nao identificado")
         return 1
 
-    #Possibel extractors
+    #Possible extractors
     PE = {}
-    PE["w2v"] = extractor.W2v
+    PE["w2v"] = extractors.W2v
 
-    extract = PE[opt.extractor]
-    extract(train,test,name=opt.extractor)
+    extract = PE[opt.extractor](train,test,name=opt.extractor)
     extract.init()
     extract.model1_init()
-    extract.run()
+    train_features, test_features = extract.run()
+    if opt.run:
+        run_out = "-" + opt.run
+    else:
+        run_out = ""
+    save_to_file(train_features, opt.data + "-" + opt.extractor + "-train" + run_out)
+    save_to_file(test_features, opt.data + "-" + opt.extractor +  "-test" + run_out)
 
 if __name__ == "__main__":
     main()
