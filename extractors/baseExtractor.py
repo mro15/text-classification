@@ -9,3 +9,9 @@ class Extractor(object):
     def run(self):
         pass
 
+    def init(self):
+        pass
+
+    def model1_init(self):
+        pass
+

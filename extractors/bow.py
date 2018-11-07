@@ -21,11 +21,7 @@ class Bow(Extractor):
         train = []
         for t in self.train_data[0]:
         	train.append(count_vectorizer.transform(t).toarray()[0])
-        print("train")
-        print(train)
         test = []
         for t in self.test_data[0]:
             test.append(count_vectorizer.transform(t).toarray()[0])
-        print("test")
-        print(test)
         return [train, self.train_data[1]], [test, self.test_data[1]]
