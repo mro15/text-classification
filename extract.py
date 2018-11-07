@@ -94,11 +94,22 @@ def main():
     #Possible extractors
     PE = {}
     PE["w2v"] = extractors.W2v
+    PE["bow"] = extractors.Bow
 
-    extract = PE[opt.extractor](train,test,name=opt.extractor)
-    extract.init()
-    extract.model1_init()
-    train_features, test_features = extract.run()
+    #POGGGG
+    if opt.extractor == "w2v":
+        extract = PE[opt.extractor](train,test,name=opt.extractor)
+        extract.init()
+        extract.model1_init()
+        train_features, test_features = extract.run()
+    elif opt.extractor == "bow":
+        extract = PE[opt.extractor](train,test,name=opt.extractor)
+        extract.init()
+        train_features, test_features = extract.run()
+    else:
+        print("Erro, extrator nao encontrado")
+        return 1
+		
     if opt.run:
         run_out = "-" + opt.run
     else:
