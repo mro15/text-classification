@@ -8,12 +8,10 @@ logging.basicConfig(level=logging.DEBUG)
 
 class Tfidf(Extractor):
 
-    def init(self):
-        self.text = sum(self.train_data[0], [])
-
     def run(self):
         vectorizer = TfidfVectorizer()
-        vectorizer.fit(self.text)
+        for t in self.train_data[0]:
+        	vectorizer.fit(t)
         train = []
         for t in self.train_data[0]:
             train.append(vectorizer.transform(t).toarray()[0])

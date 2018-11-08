@@ -9,13 +9,11 @@ logging.basicConfig(level=logging.DEBUG)
 
 class Bow(Extractor):
 
-    def init(self):
-        self.text = sum(self.train_data[0], [])
-
     def run(self):
         count_vectorizer = CountVectorizer(analyzer="word", tokenizer=nltk.word_tokenize,
 		                   preprocessor=None, stop_words='english', max_features=None)
-        count_vectorizer.fit(self.text)
+        for t in self.train_data[0]:
+        	count_vectorizer.fit(t)
         train = []
         for t in self.train_data[0]:
         	train.append(count_vectorizer.transform(t).toarray()[0])
