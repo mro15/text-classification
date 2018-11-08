@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import gensim
-import numpy as np
 import logging
 from .baseExtractor import Extractor
 from sklearn.feature_extraction.text import CountVectorizer

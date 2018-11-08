@@ -95,6 +95,7 @@ def main():
     PE = {}
     PE["w2v"] = extractors.W2v
     PE["bow"] = extractors.Bow
+    PE["tfidf"] = extractors.Tfidf
 
     extract = PE[opt.extractor](train,test,name=opt.extractor)
     extract.init()
