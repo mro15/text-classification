@@ -18,7 +18,7 @@ class Knn(Classifier):
         neigh.fit(self.x_train, self.y_train)
         self.y_pred = neigh.predict(self.x_test)
         self.score = neigh.score(self.x_test, self.y_test)
-        self.confusion_matrix = (self.y_test, self.y_pred)
+        self.confusion_matrix = confusion_matrix(self.y_test, self.y_pred)
 
     def get_score(self):
         return self.score
