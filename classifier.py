@@ -32,6 +32,7 @@ def main():
     #Possible classifiers
     PC = {}
     PC["knn"] = classifiers.Knn
+    PC["svm"] = classifiers.Svm
 
     classifier = PC[opt.classifier](x_train, y_train, x_test, y_test, name=opt.classifier)
     classifier.init()
