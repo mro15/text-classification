@@ -17,6 +17,7 @@ class Classifier(object):
     def model1_init(self):
         pass
 
-    def normalize(self):
-        pass
+    def normalize(self, scaler):
+        self.x_train = scaler.fit_transform(self.x_train)
+        self.x_test = scaler.transform(self.x_test)
 
