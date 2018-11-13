@@ -2,8 +2,6 @@
 import argparse
 import classifiers
 import csv
-from os import listdir
-from os.path import isfile, join
 from sklearn.datasets import load_svmlight_file
 from sklearn import preprocessing
 from IPython import embed
@@ -31,11 +29,10 @@ def main():
     opt = read_args()
     global debug
     debug = opt.debug
-    
+
     x_train, y_train = load_svmlight_file(opt.train)
     x_test, y_test = load_svmlight_file(opt.test)
 
-   
     #Possible classifiers
     PC = {}
     PC["knn"] = classifiers.Knn
@@ -45,10 +42,7 @@ def main():
     classifier.init()
     classifier.normalize(preprocessing.MaxAbsScaler())
     classifier.run()
-    print(classifier.get_y_pred())
-    print(classifier.get_score())
-    print(classifier.get_confusion_matrix())
     write_results(y_test, classifier.get_y_pred(), "predicts/"+("-".join(opt.train.split("/")[-1].split("-")[0:2])))
-    
+
 if __name__ == "__main__":
     main()
