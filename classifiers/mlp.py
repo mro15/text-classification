@@ -17,8 +17,7 @@ class Mlp(Classifier):
         self.confusion_matrix = 0
         self.y_pred = 0
         self.model = Sequential()
-        self.model.add(Dense(80, activation='relu', input_dim=self.x_train[0].shape[1]))
-        self.model.add(Dense(80))
+        self.model.add(Dense(200, activation='relu', input_dim=self.x_train[0].shape[1]))
         self.model.add(Dropout(0.5))
         self.model.add(Dense(2, activation='softmax'))
         self.model.compile(loss='binary_crossentropy',
