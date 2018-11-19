@@ -14,10 +14,27 @@ class Svm(Classifier):
         self.y_pred = 0
 
     def model1_init(self, name):
-        pass
+        if name=="polarity-bow":
+            self.c = 2048
+            self.gamma = 0.03125
+        elif name=="polarity-w2v":
+            self.c = 512
+            self.gamma = 0.03125
+        elif name=="polarity-tfidf":
+            self.c = 2
+            self.gamma = 0.5
+        elif name=="imdb-w2v":
+            self.c = 2
+            self.gamma = 0.125
+        elif name=="imdb-bow":
+            self.c = 128
+            self.gamma = 0.0001220703125
+        else: #imdb-tfidf
+            self.c = 512
+            self.gamma = 0.03125
 
     def run(self):
-        clf = svm.SVC(kernel='linear', C=32.0, gamma=0.125, probability=True) #TODO: grid search to find better params
+        clf = svm.SVC(kernel='linear', C=self.c, gamma=self.gamma, probability=True)
         clf.fit(self.x_train, self.y_train)
         self.y_pred = clf.predict(self.x_test)
         self.score = clf.score(self.x_test, self.y_test)
