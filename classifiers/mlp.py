@@ -37,7 +37,7 @@ class Mlp(Classifier):
         self.confusion_matrix = confusion_matrix(self.y_test, self.y_pred)
 
     def get_score(self):
-        return self.score
+        return self.score[-1]
 
     def get_y_pred(self):
         return self.y_pred.astype(float)

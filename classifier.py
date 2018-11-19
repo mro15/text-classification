@@ -39,13 +39,22 @@ def main():
     PC["svm"] = classifiers.Svm
     PC["mlp"] = classifiers.Mlp
 
+    y_preds = []
+    y_tests = []
+    scores = []
     name = ("-".join(opt.train.split("/")[-1].split("-")[0:2]))
     classifier = PC[opt.classifier](x_train, y_train, x_test, y_test, name=opt.classifier)
-    classifier.init()
-    classifier.model1_init(name)
-    classifier.normalize(preprocessing.MaxAbsScaler())
-    classifier.run()
-    write_results(classifier.y_test, classifier.get_y_pred(), "predicts/"+ name + "-" + opt.classifier)
+    for i in range(0, 10):
+        classifier.init()
+        classifier.model1_init(name)
+        classifier.normalize(preprocessing.MaxAbsScaler())
+        classifier.run()
+        y_preds.append(classifier.get_y_pred())
+        y_tests.append(classifier.y_test)
+        scores.append(classifier.get_score())
+        write_results(classifier.y_test, classifier.get_y_pred(), "predicts/"+ name + "-" + opt.classifier + str(i))
+    best_pos = scores.index(max(scores))
+    write_results(y_tests[best_pos], y_preds[best_pos], "predicts/"+ name + "-" + opt.classifier + "-" + "best")
 
 if __name__ == "__main__":
     main()
