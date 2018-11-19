@@ -14,7 +14,7 @@ class Classifier(object):
     def init(self):
         pass
 
-    def model1_init(self):
+    def model1_init(self, name):
         pass
 
     def normalize(self, scaler):

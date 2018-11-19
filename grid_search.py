@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 import argparse
-import classifiers
-import csv
 from sklearn.datasets import load_svmlight_file
 from sklearn import preprocessing
 from IPython import embed
+from sklearn.model_selection import GridSearchCV
+from sklearn import svm
+import numpy
 
 debug = False
 
 def read_args():
     parser = argparse.ArgumentParser(description='Os parametros para os extratores são:')
     parser.add_argument('--train', type=str, help='arquivo de treino', required=True)
-    parser.add_argument('--test', type=str, help='arquivo de teste', required=True)
-    parser.add_argument('--classifier', type=str, help='Classificar com o seguinte classificador', required=True)
     parser.add_argument('--debug', help='Print debug and load less files', default=False, action="store_true")
     return parser.parse_args()
 
@@ -20,10 +19,32 @@ def pprint(text):
     if debug:
         print(text)
 
-def write_results(y_test, y_pred, file_name):
+def write_results(file_name, result):
     with open(file_name, 'w') as f:
-        result = csv.writer(f)
-        result.writerows(zip(y_test, y_pred))
+        f.write(str(result))
+
+def GridSearch(X_train, y_train):
+
+	# define range dos parametros
+	C_range = 2. ** numpy.arange(-5,15,2)
+	gamma_range = 2. ** numpy.arange(3,-15,-2)
+	k = [ 'rbf']
+	#k = ['linear', 'rbf']
+	param_grid = dict(gamma=gamma_range, C=C_range, kernel=k)
+
+	# instancia o classificador, gerando probabilidades
+	srv = svm.SVC(probability=True)
+
+	# faz a busca
+	grid = GridSearchCV(srv, param_grid, n_jobs=-1, verbose=True)
+	grid.fit (X_train, y_train)
+
+	# recupera o melhor modelo
+	model = grid.best_estimator_
+
+	# imprime os parametros desse modelo
+	return grid.best_params_
+
 
 def main():
     opt = read_args()
@@ -31,20 +52,10 @@ def main():
     debug = opt.debug
 
     x_train, y_train = load_svmlight_file(opt.train)
-    x_test, y_test = load_svmlight_file(opt.test)
-
-    #Possible classifiers
-    PC = {}
-    PC["knn"] = classifiers.Knn
-    PC["svm"] = classifiers.Svm
+    best = GridSearch(x_train, y_train)
 
     name = ("-".join(opt.train.split("/")[-1].split("-")[0:2]))
-    classifier = PC[opt.classifier](x_train, y_train, x_test, y_test, name=opt.classifier)
-    classifier.init()
-    classifier.model1_init(name)
-    classifier.normalize(preprocessing.MaxAbsScaler())
-    classifier.run()
-    write_results(y_test, classifier.get_y_pred(), "predicts/"+ name + "-" + opt.classifier)
+    write_results("best_params/"+ name, best)
 
 if __name__ == "__main__":
     main()

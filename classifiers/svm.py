@@ -13,6 +13,9 @@ class Svm(Classifier):
         self.confusion_matrix = 0
         self.y_pred = 0
 
+    def model1_init(self, name):
+        pass
+
     def run(self):
         clf = svm.SVC(kernel='linear', C=32.0, gamma=0.125, probability=True) #TODO: grid search to find better params
         clf.fit(self.x_train, self.y_train)
