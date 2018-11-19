@@ -26,10 +26,10 @@ class Mlp(Classifier):
                            metrics=['accuracy'])
         self.x_train, self.y_train = shuffle(self.x_train, self.y_train, random_state=0)
         self.x_test, self.y_test = shuffle(self.x_test, self.y_test, random_state=0)
-        self.x_train  = self.x_train.todense()
-        self.x_test = self.x_test.todense()
-        self.cat_y_train = to_categorical(self.y_train)
-        self.cat_y_test = to_categorical(self.y_test)
+        #self.x_train  = self.x_train.todense()
+        #self.x_test = self.x_test.todense()
+        self.cat_y_train = to_categorical(self.y_train, num_classes=2)
+        self.cat_y_test = to_categorical(self.y_test, num_classes=2)
 
     def run(self):
         self.model.fit(self.x_train, self.cat_y_train, validation_split=0.25, epochs=100, batch_size=128)
@@ -41,7 +41,7 @@ class Mlp(Classifier):
         return self.score
 
     def get_y_pred(self):
-        return self.y_pred
+        return self.y_pred.astype(float)
 
     def get_confusion_matrix(self):
         return self.confusion_matrix
