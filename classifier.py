@@ -37,6 +37,7 @@ def main():
     PC = {}
     PC["knn"] = classifiers.Knn
     PC["svm"] = classifiers.Svm
+    PC["mlp"] = classifiers.Mlp
 
     name = ("-".join(opt.train.split("/")[-1].split("-")[0:2]))
     classifier = PC[opt.classifier](x_train, y_train, x_test, y_test, name=opt.classifier)
@@ -44,7 +45,7 @@ def main():
     classifier.model1_init(name)
     classifier.normalize(preprocessing.MaxAbsScaler())
     classifier.run()
-    write_results(y_test, classifier.get_y_pred(), "predicts/"+ name + "-" + opt.classifier)
+    write_results(classifier.y_test, classifier.get_y_pred(), "predicts/"+ name + "-" + opt.classifier)
 
 if __name__ == "__main__":
     main()
