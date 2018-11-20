@@ -100,6 +100,7 @@ def main():
     extract = PE[opt.extractor](train,test,name=opt.extractor)
     extract.init()
     extract.model1_init()
+    #extract.pre_process()
     train_features, test_features = extract.run()
 
     if opt.run:
