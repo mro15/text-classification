@@ -43,8 +43,8 @@ def main():
     y_tests = []
     scores = []
     name = ("-".join(opt.train.split("/")[-1].split("-")[0:2]))
-    classifier = PC[opt.classifier](x_train, y_train, x_test, y_test, name=opt.classifier)
     for i in range(0, 10):
+        classifier = PC[opt.classifier](x_train, y_train, x_test, y_test, name=opt.classifier)
         classifier.init()
         classifier.model1_init(name)
         classifier.normalize(preprocessing.MaxAbsScaler())
