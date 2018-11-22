@@ -88,7 +88,12 @@ def read_mr():
     for i in ["test", "train"]:
         for j in ["pos", "neg"]:
             with open(dataset+i+"/"+j+"/"+j+".txt") as fp:
-                dado[i][j] = fp.readlines()
+                tmp = fp.readlines()
+            #Fix for bow....
+            for t in tmp:
+                dado[i][j].append([t])
+                if debug and len(dado[i][j]) == 5:
+                    break
 
     train = dado["train"]["pos"] + dado["train"]["neg"]
     label_train = [1]*len(dado["train"]["pos"]) + [0]*len(dado["train"]["neg"])
