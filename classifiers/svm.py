@@ -29,6 +29,15 @@ class Svm(Classifier):
         elif name=="imdb-bow":
             self.c = 128
             self.gamma = 0.0001220703125
+        elif name=="mr-bow":
+            self.c = 2048
+            self.gamma = 0.001953125
+        elif name=="mr-tfidf":
+            self.c = 8192
+            self.gamma = 0.125
+        elif name=="mr-w2v":
+            self.c = 8192
+            self.gamma = 0.0078125
         else: #imdb-tfidf
             self.c = 512
             self.gamma = 0.03125
