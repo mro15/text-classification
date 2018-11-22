@@ -75,6 +75,29 @@ def read_polarity():
 
     return [train, label_train], [test, label_test]
 
+def read_mr():
+    dataset = "datasets/mr/"
+    dado = {}
+    dado["test"] = {}
+    dado["test"]["pos"] = []
+    dado["test"]["neg"] = []
+    dado["train"] = {}
+    dado["train"]["pos"] = []
+    dado["train"]["neg"] = []
+
+    for i in ["test", "train"]:
+        for j in ["pos", "neg"]:
+            with open(dataset+i+"/"+j+"/"+j+".txt") as fp:
+                dado[i][j] = fp.readlines()
+
+    train = dado["train"]["pos"] + dado["train"]["neg"]
+    label_train = [1]*len(dado["train"]["pos"]) + [0]*len(dado["train"]["neg"])
+
+    test = dado["test"]["pos"] + dado["test"]["neg"]
+    label_test = [1]*len(dado["test"]["pos"]) + [0]*len(dado["test"]["neg"])
+
+    return [train, label_train], [test, label_test]
+
 def save_to_file(features, file_out):
     dump_svmlight_file(features[0], features[1], "features/" + file_out)
 
@@ -87,6 +110,8 @@ def main():
         train,test = read_imdb()
     elif opt.data == "polarity":
         train,test = read_polarity()
+    elif opt.data == "mr":
+        train,test = read_mr()
     else:
         print("Erro, database nao identificado")
         return 1
