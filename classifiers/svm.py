@@ -15,7 +15,7 @@ class Svm(Classifier):
 
     def model1_init(self, name):
         if name=="polarity-bow":
-            self.c = 2048
+            self.c = 0.5
             self.gamma = 0.03125
         elif name=="polarity-w2v":
             self.c = 512
@@ -27,11 +27,11 @@ class Svm(Classifier):
             self.c = 2
             self.gamma = 0.125
         elif name=="imdb-bow":
-            self.c = 128
+            self.c = 32
             self.gamma = 0.0001220703125
         elif name=="mr-bow":
-            self.c = 2048
-            self.gamma = 0.001953125
+            self.c = 8192
+            self.gamma = 0.0078125
         elif name=="mr-tfidf":
             self.c = 8192
             self.gamma = 0.125
