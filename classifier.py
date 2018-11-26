@@ -39,6 +39,7 @@ def main():
     PC["svm"] = classifiers.Svm
     PC["mlp"] = classifiers.Mlp
     PC["nb"]  = classifiers.NaiveBayes
+    PC["rf"]  = classifiers.RandomForest
 
     y_preds = []
     y_tests = []
