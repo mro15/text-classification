@@ -38,6 +38,7 @@ def main():
     PC["knn"] = classifiers.Knn
     PC["svm"] = classifiers.Svm
     PC["mlp"] = classifiers.Mlp
+    PC["nb"]  = classifiers.NaiveBayes
 
     y_preds = []
     y_tests = []
